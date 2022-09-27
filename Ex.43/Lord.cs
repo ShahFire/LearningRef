@@ -11,78 +11,50 @@ namespace Ex._43
     {
         public static void DeleteByIndex<T>(ref T[] array, int index)
         {
-            if (array.Length > index && index >= 0)
-            {
-                T[] newArray = new T[array.Length - 1];
-
-                for (int i = 0, j = 0; i < newArray.Length; i++, j++)
-                {
-                    if (j == index) i--;
-                    else newArray[i] = array[j];
-                }
-
-                array = newArray;
-            }
-        }
-        public static void DeleteLastElement<T>(ref T[] array)
-        {
             T[] newArray = new T[array.Length - 1];
 
-            for (int i = 0; i < newArray.Length; i++)
+            for (int i = 0; i < index && i < newArray.Length; i++)
             {
                 newArray[i] = array[i];
             }
-
-            array = newArray;
-        }
-        public static void DeleteFirstElement<T>(ref T[] array)
-        {
-            T[] newArray = new T[array.Length - 1];
-
-            for (int i = 0; i < newArray.Length; i++)
+            for (int i = index; i < newArray.Length; i++)
             {
                 newArray[i] = array[i + 1];
             }
 
             array = newArray;
         }
+        public static void DeleteLastElement<T>(ref T[] array)
+        {
+            DeleteByIndex(ref array, array.Length);
+        }
+        public static void DeleteFirstElement<T>(ref T[] array)
+        {
+            DeleteByIndex(ref array, 0);
+        }
         public static void AddByIndex<T>(ref T[] array, int index, T value)
         {
-            T[] newArray = new T[array.Length];
+            T[] newArray = new T[array.Length + 1];
 
-            for (int i = 0; i < array.Length; i++)
+            newArray[index] = value;
+
+            for (int i = 0; i < index; i++)
             {
-                if (i == index) newArray[i] = value;
-                else newArray[i] = array[i];
+                newArray[i] = array[i];
             }
-
+            for (int i = index; i < array.Length; i++)
+            {
+                newArray[i + 1] = array[i];
+            }
             array = newArray;
         }
         public static void AddToEnd<T>(ref T[] array, T value)
         {
-            T[] newArray = new T[array.Length + 1];
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                newArray[i] = array[i];
-            }
-
-            newArray[array.Length] = value;
-
-            array = newArray;
+            AddByIndex(ref array, array.Length, value);
         }
         public static void AddToTop<T> (ref T[] array, T value)
         {
-            T[] newArray = new T[array.Length + 1];
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                newArray[i + 1] = array[i];
-            }
-
-            newArray[0] = value;
-
-            array = newArray;
+            AddByIndex(ref array, 0, value);
         }
         public static void Resize<T>(ref T[] array, int counter)
         {
